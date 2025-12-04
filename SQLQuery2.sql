@@ -15,13 +15,7 @@ GO
 USE HotelDB;
 GO
 
-create table Service(
-	service_id int primary key,
-	name varchar(50) null,
-	description varchar(300) null,
-	price int not null
 
-);
 
 
  /*Remove comment when Employee & Reservation are done */
@@ -61,6 +55,7 @@ go
 	foreign key  (employee_id) references Employee (employee_id)
 	);
 go
+drop table ServiceRequest;
 create table ServiceRequest(
 	service_req_id int primary key,
 	reservation_id int not null,
@@ -75,4 +70,5 @@ create table ServiceRequest(
 	foreign key  (handled_by_employee_id) references Employee (employee_id)
 	
 	);
-go
+
+	go
