@@ -68,7 +68,7 @@ BEGIN
 	foreign key  (employee_id) references Employee (employee_id)
 	);
 end
-IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'Reservation')
+IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'ServiceRequest')
 BEGIN	
 create table ServiceRequest(
 	service_req_id int primary key,
@@ -151,3 +151,36 @@ values
     (102, 2, 2, '2025-02-01', '2025-02-05', 'Booked', 2000.00),
     (103, 3, 3, '2025-03-20', '2025-03-23', 'Checked-Out', 1800.00);
 GO
+INSERT INTO ServiceRequest(
+    service_req_id,
+    reservation_id,
+    notes,
+    req_status,
+    total_price,
+    requested_by_employee_id,
+    handled_by_employee_id
+)
+VALUES
+(1, 101, 'Extra towels requested', 'Completed', 15.00,1, 2),
+
+(2, 102, 'Room cleaning required', 'In Progress', 30.00, 2, 3),
+
+(3, 103, 'Late checkout request', 'Pending', 0.00, 3, 1);
+
+
+INSERT INTO Payment (payment_id, res_id, amount, payment_date, payment_method, status)
+VALUES
+    (1, 101, 3000, '2025-01-15', 'Credit Card', 'Completed'),
+    (2, 102, 2000, '2025-02-01', 'Cash', 'Pending'),
+    (3, 103, 1800, '2025-03-23', 'Credit Card', 'Completed');
+select * from Payment;
+INSERT INTO RoomType (room_type_id, name, max_occupancy, base_price)
+VALUES
+    (1, 'Single', 1, 500),
+    (2, 'Double', 2, 800),
+    (3, 'Suite', 4, 1500);
+INSERT INTO Room (room_id, room_number, roomtype_id, room_status, price_per_night, description)
+VALUES
+    (1, 101, 1, 'Available', 500, 'Single room with a comfortable bed and workspace'),
+    (2, 202, 2, 'Occupied', 800, 'Double room with two beds and city view'),
+    (3, 303, 3, 'Under Maintenance', 1500, 'Luxury suite with living room and balcony');
