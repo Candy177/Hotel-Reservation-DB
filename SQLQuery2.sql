@@ -118,3 +118,36 @@ create table Room(
 	foreign key (roomtype_id) references RoomType (room_type_id)
 );
 end
+
+insert into Service(service_id,name,description,price)
+values
+     (1, 'Laundry', 'Professional laundry service including washing, drying, ironing, and folding. Items are collected from the guest room and delivered within 24 hours.',150),
+	 (2,'Room Service', 'In-room dining available 24/7 offering a variety of international and local dishes delivered to the guest room.',60),
+	 (3,'Spa', 'Relaxing spa treatments including massage, aromatherapy, sauna, and facial care performed by certified therapists.', 5),
+	 (4, 'Airport Pickup', 'Private airport pickup and drop-off service with comfortable vehicles and luggage assistance.', 300),
+	 (5, 'Gym Access', 'Access to the fully equipped fitness center with cardio machines and weights.', 100);
+
+go 
+
+/*insert into Guest
+values*/
+INSERT INTO Guest (guest_id, first_name, last_name, phone,email, guest_address)
+VALUES
+     (1, 'Ahmed', 'Hassan', '01234567890', 'ahmed@example.com','Cairo, Egypt'),
+     (2, 'Mona', 'Ali', '01122334455', 'mona@example.com','Alexandria, Egypt'),
+     (3, 'Youssef', 'Ibrahim', '01099887766', 'youssef@example.com','Giza, Egypt');
+
+
+GO
+insert into Employee(employee_id, first_name, last_name, email, phone, employee_role, hire_date)
+values
+      (1, 'Sara', 'Kandil', 'sara.kandil@hotel.com', '01012345678', 'Receptionist', '2023-01-01'),
+      (2, 'Omar', 'Hassan', 'omar.hassan@hotel.com', '01098765432', 'Manager', '2022-05-10'),
+      (3, 'Yasmine', 'Mahmoud', 'yasmine.mahmoud@hotel.com', '01022334455', 'Housekeeping', '2024-03-15');
+go
+insert into Reservation(reservation_id ,employee_id,guest_id,check_in_date,check_out_date,guest_status,total_amount )
+values
+    (101, 1, 1, '2025-01-10', '2025-01-15', 'Checked-In', 3000.00),
+    (102, 2, 2, '2025-02-01', '2025-02-05', 'Booked', 2000.00),
+    (103, 3, 3, '2025-03-20', '2025-03-23', 'Checked-Out', 1800.00);
+GO
