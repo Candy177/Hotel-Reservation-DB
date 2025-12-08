@@ -14,13 +14,23 @@ GO
 
 USE HotelDB;
 GO
+IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'Service')
+BEGIN
+  create table Service(
+	service_id int primary key,
+	name varchar(50) null,
+	description varchar(300) null,
+	price int not null
 
-
+);
+end
 
 
  /*Remove comment when Employee & Reservation are done */
-go
-create table Employee(
+
+IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'Employee')
+BEGIN
+ create table Employee(
     employee_id  int primary key,
 	first_name   varchar(50) null,
 	last_name   varchar(50) null,
@@ -29,7 +39,9 @@ create table Employee(
 	employee_role       varchar(50)   not null,
 	hire_date   date         not null
 	);
-go
+	end
+IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'Guest')
+BEGIN
 create table Guest(
     /*id_number int ,*/
 	guest_id  int primary key,
@@ -40,9 +52,10 @@ create table Guest(
 	guest_address varchar(200) not null,
 	/*primary key(id_number, guest_id)*/
 	);
-	
-go
-	
+end	
+
+IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'Reservation')
+BEGIN	
  create table Reservation(
     reservation_id int primary key,
 	employee_id  int not null,
@@ -54,8 +67,9 @@ go
 	foreign key  (guest_id) references Guest (guest_id),
 	foreign key  (employee_id) references Employee (employee_id)
 	);
-go
-drop table ServiceRequest;
+end
+IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'Reservation')
+BEGIN	
 create table ServiceRequest(
 	service_req_id int primary key,
 	reservation_id int not null,
@@ -70,5 +84,37 @@ create table ServiceRequest(
 	foreign key  (handled_by_employee_id) references Employee (employee_id)
 	
 	);
-
-	go
+	end
+IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'Payment')
+BEGIN	
+	create table Payment(
+	payment_id int primary key,
+	res_id int not null,
+	amount int not null,
+	payment_date date null,
+	payment_method varchar(20) null,
+	status varchar(20) not null,
+	foreign key (res_id) references Reservation (reservation_id)
+);
+end
+IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'RoomType')
+BEGIN
+create table RoomType(
+	room_type_id int primary key,
+	name varchar(20) null,
+	max_occupancy int null,
+	base_price int not null
+);
+end
+IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'Room')
+BEGIN
+create table Room(
+	room_id int primary key,
+	room_number int not null,
+	roomtype_id int not null,
+	room_status varchar(20) not null,
+	price_per_night int not null,
+	description varchar(300) null,
+	foreign key (roomtype_id) references RoomType (room_type_id)
+);
+end
